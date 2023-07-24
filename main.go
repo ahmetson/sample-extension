@@ -17,10 +17,6 @@ func main() {
 	service.GetController().AddRoute(handler.Add())
 	service.GetController().AddRoute(handler.Mul())
 
-	webProxy := "github.com/ahmetson/web-proxy"
-	service.RequireProxy(webProxy)
-	service.Pipe(webProxy, service.GetControllerName())
-
 	err := service.Prepare()
 	if err != nil {
 		logger.Fatal("service.Prepare", "error", err)
