@@ -11,8 +11,11 @@ func main() {
 	logger, _ := log.New("sample", false)
 	appConfig, _ := configuration.New(logger)
 
-	service, _ := extension.New(appConfig, logger.Child("extension"))
+	service, _ := extension.New(appConfig, logger)
 	service.AddController(configuration.ReplierType)
+
+	service.RequireProxy("github.com/ahmetson/web-proxy", configuration.DefaultContext)
+	service.Pipe("github.com/ahmetson/web-proxy", service.GetControllerName())
 
 	service.GetController().AddRoute(handler.Add())
 	service.GetController().AddRoute(handler.Mul())

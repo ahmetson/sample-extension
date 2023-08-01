@@ -11,12 +11,12 @@ import (
 var onAdd = func(request message.Request, _ *log.Logger, _ ...*remote.ClientSocket) message.Reply {
 	x, err := request.Parameters.GetUint64("x")
 	if err != nil {
-		return message.Fail("request.Parameters: " + err.Error())
+		return request.Fail("request.Parameters: " + err.Error())
 	}
 
 	y, err := request.Parameters.GetUint64("y")
 	if err != nil {
-		return message.Fail("request.Parameters: " + err.Error())
+		return request.Fail("request.Parameters: " + err.Error())
 	}
 
 	sum := x + y
@@ -24,22 +24,18 @@ var onAdd = func(request message.Request, _ *log.Logger, _ ...*remote.ClientSock
 	parameters := key_value.Empty()
 	parameters.Set("z", sum)
 
-	return message.Reply{
-		Status:     message.OK,
-		Message:    "",
-		Parameters: parameters,
-	}
+	return request.Ok(parameters)
 }
 
 var onMul = func(request message.Request, _ *log.Logger, _ ...*remote.ClientSocket) message.Reply {
 	x, err := request.Parameters.GetUint64("x")
 	if err != nil {
-		return message.Fail("request.Parameters: " + err.Error())
+		return request.Fail("request.Parameters: " + err.Error())
 	}
 
 	y, err := request.Parameters.GetUint64("y")
 	if err != nil {
-		return message.Fail("request.Parameters: " + err.Error())
+		return request.Fail("request.Parameters: " + err.Error())
 	}
 
 	sum := x * y
@@ -47,11 +43,7 @@ var onMul = func(request message.Request, _ *log.Logger, _ ...*remote.ClientSock
 	parameters := key_value.Empty()
 	parameters.Set("z", sum)
 
-	return message.Reply{
-		Status:     message.OK,
-		Message:    "",
-		Parameters: parameters,
-	}
+	return request.Ok(parameters)
 }
 
 func Add() *command.Route {
